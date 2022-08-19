@@ -1,5 +1,0 @@
-C:\Users\KevinAndrewLipscomb\Documents\Visual Studio 2019\Projects\KiConsoleFramework\KiConsoleFramework\obj\Debug\netcoreapp3.1\KiConsoleFramework.csproj.AssemblyReference.cache
-C:\Users\KevinAndrewLipscomb\Documents\Visual Studio 2019\Projects\KiConsoleFramework\KiConsoleFramework\obj\Debug\netcoreapp3.1\KiConsoleFramework.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\KevinAndrewLipscomb\Documents\Visual Studio 2019\Projects\KiConsoleFramework\KiConsoleFramework\obj\Debug\netcoreapp3.1\KiConsoleFramework.AssemblyInfoInputs.cache
-C:\Users\KevinAndrewLipscomb\Documents\Visual Studio 2019\Projects\KiConsoleFramework\KiConsoleFramework\obj\Debug\netcoreapp3.1\KiConsoleFramework.AssemblyInfo.cs
-C:\Users\KevinAndrewLipscomb\Documents\Visual Studio 2019\Projects\KiConsoleFramework\KiConsoleFramework\obj\Debug\netcoreapp3.1\KiConsoleFramework.csproj.CoreCompileInputs.cache
