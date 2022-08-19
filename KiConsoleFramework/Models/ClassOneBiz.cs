@@ -1,5 +1,7 @@
 ﻿using KiConsoleFramework.Data;
+using kix;
 using System;
+using System.Threading;
 
 namespace KiConsoleFramework.Models
   {
@@ -95,6 +97,12 @@ namespace KiConsoleFramework.Models
       // Perform this class of processing, making reports as necessary.
       //
       // --
+      for (var i = 0; i < 10; i++)
+        {
+        ReportProgress(new(i.ToString()));
+        Thread.Sleep(millisecondsTimeout:1000);
+        }
+      //
       ReportCompletion(new("Process complete."));
       }
 
