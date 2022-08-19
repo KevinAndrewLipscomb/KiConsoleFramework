@@ -2,6 +2,7 @@ using kix;
 using MySql.Data.MySqlClient;
 using System;
 using System.Configuration;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace KiConsoleFramework.Data
@@ -83,14 +84,13 @@ namespace KiConsoleFramework.Data
       {
       // Make a local journal entry for convenient review.
       Open();
-      using var my_sql_command = new MySqlCommand
-        (
-        "insert into journal"
-        + " set timestamp = CURRENT_TIMESTAMP"
-        + " , actor = \"" + HttpContext.Current.User.Identity.Name + "\""
-        + " , action = \"" + Regex.Replace(action, Convert.ToString(k.QUOTE), k.DOUBLE_QUOTE) + "\"",
-        connection
-        );
+      var cmd_text = new StringBuilder()
+        .Append($"insert into journal")
+        .Append($" set timestamp = CURRENT_TIMESTAMP")
+        .Append($" , actor = '{Environment.UserName}'")
+        .Append($" , action = '{Regex.Replace(action, Convert.ToString(k.QUOTE), k.DOUBLE_QUOTE)}'")
+        ;
+      using var my_sql_command = new MySqlCommand(cmd_text.ToString(),connection);
       my_sql_command.ExecuteNonQuery();
       Close();
       // Send a representation of the action offsite as a contingency.
@@ -98,10 +98,10 @@ namespace KiConsoleFramework.Data
         (
         from:ConfigurationManager.AppSettings["sender_email_address"],
         to:ConfigurationManager.AppSettings["failsafe_recipient_email_address"],
-        subject:"DB action by " + HttpContext.Current.User.Identity.Name,
+        subject:"DB action by " + Environment.UserName,
         message_string:k.WrapText
           (
-          t:"/*" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff") + k.SPACE + HttpContext.Current.Session["username"] + "*/ " + action,
+          t:"/*" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff") + k.SPACE + Environment.UserName + "*/ " + action,
           insert_string:k.NEW_LINE,
           break_char_array:Array.Empty<char>(),
           max_line_len:k.MAX_RFC_2822_ET_SEQ_EMAIL_LINE_LENGTH
