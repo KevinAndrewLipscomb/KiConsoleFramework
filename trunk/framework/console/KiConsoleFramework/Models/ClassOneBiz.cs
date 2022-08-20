@@ -1,5 +1,4 @@
 ﻿using KiConsoleFramework.Data;
-using kix;
 using System;
 using System.Threading;
 
@@ -9,63 +8,24 @@ namespace KiConsoleFramework.Models
     {
 
     private readonly IClassOneDb classOneDb = null;
+    private bool BeQuitCommanded = false;
 
-    private Action<CompletionInfo> ReportCompletion;
-    private Action<DebugInfo> ReportDebug;
-    private Action<ElaborationInfo> ReportElaboration;
-    private Action<ErrorInfo> ReportError;
-    private Action<FailureInfo> ReportFailure;
-    private Action<ProgressInfo> ReportProgress;
-    private Action<WarningInfo> ReportWarning;
-
-    public class CompletionInfo
+    public class EventArgs
       {
-      public string content = "";
-      public CompletionInfo() {}
-      public CompletionInfo(string content) { this.content = content; }
+      public string content = string.Empty;
+      public EventArgs() {}
+      public EventArgs(string content) { this.content = content; }
       }
 
-    public class DebugInfo
-      {
-      public string content = "";
-      public DebugInfo() {}
-      public DebugInfo(string content) { this.content = content; }
-      }
+    public event EventHandler<EventArgs> OnProgress, OnCompletion;
+    public event EventHandler<string> OnDebug, OnWarning, OnError, OnFailure;
 
-    public class ElaborationInfo
-      {
-      public string content = "";
-      public ElaborationInfo() {}
-      public ElaborationInfo(string content) { this.content = content; }
-      }
-
-    public class ErrorInfo
-      {
-      public string content = "";
-      public ErrorInfo() {}
-      public ErrorInfo(string content) { this.content = content; }
-      }
-
-    public class FailureInfo
-      {
-      public string content = "";
-      public FailureInfo() {}
-      public FailureInfo(string content) { this.content = content; }
-      }
-
-    public class ProgressInfo
-      {
-      public string content = "";
-      public ProgressInfo() {}
-      public ProgressInfo(string content) { this.content = content; }
-      }
-
-    public class WarningInfo
-      {
-      public string content = "";
-      public WarningInfo() {}
-      public WarningInfo(string content) { this.content = content; }
-      }
+    protected virtual void ReportProgress(EventArgs e) => OnProgress?.Invoke(this,e);
+    protected virtual void ReportCompletion(EventArgs e) => OnCompletion?.Invoke(this,e);
+    protected virtual void ReportDebug(string text) => OnDebug?.Invoke(this,text);
+    protected virtual void ReportWarning(string text) => OnWarning?.Invoke(this,text);
+    protected virtual void ReportError(string text) => OnError?.Invoke(this,text);
+    protected virtual void ReportFailure(string text) => OnFailure?.Invoke(this,text);
 
     public ClassOneBiz(IClassOneDb classOneDb_imp) // CONSTRUCTOR
       {
@@ -75,35 +35,34 @@ namespace KiConsoleFramework.Models
     public void Process
       (
       string parameterOne,
-      string parameterTwo,
-      Action<ProgressInfo> OnProgress,
-      Action<ElaborationInfo> OnElaboration,
-      Action<WarningInfo> OnWarning,
-      Action<ErrorInfo> OnError,
-      Action<FailureInfo> OnFailure,
-      Action<CompletionInfo> OnCompletion,
-      Action<DebugInfo> OnDebug
+      string parameterTwo
       )
       {
-      ReportProgress = OnProgress;
-      ReportElaboration = OnElaboration;
-      ReportWarning = OnWarning;
-      ReportError = OnError;
-      ReportFailure = OnFailure;
-      ReportCompletion = OnCompletion;
-      ReportDebug = OnDebug;
       // --
       //
-      // Perform this class of processing, making reports as necessary.
+      // Perform this class of processing, monitoring for a commanded quit, and making reports as necessary.
       //
       // --
-      for (var i = 0; i < 10; i++)
+      var done = false;
+      while (!BeQuitCommanded && !done)
         {
-        ReportProgress(new(i.ToString()));
+        ReportProgress(e:new("."));
         Thread.Sleep(millisecondsTimeout:1000);
         }
       //
-      ReportCompletion(new("Process complete."));
+      if (BeQuitCommanded)
+        {
+        ReportWarning(text:"Process interrupted.");
+        }
+      else
+        {
+        ReportCompletion(e:new("Process complete."));
+        }
+      }
+
+    public void Quit(object sender, System.EventArgs e)
+      {
+      BeQuitCommanded = true;
       }
 
     }
