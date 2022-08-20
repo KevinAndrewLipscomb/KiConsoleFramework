@@ -14,53 +14,35 @@ namespace KiConsoleFramework
 
     private static ClassOneInteraction classOneInteraction;
 
-    private static bool done = false;
-
     /// <summary>
     /// Serves as the CONTROLLER
     /// </summary>
     /// <param name="args">Command line arguments</param>
     static void Main(string[] args)
       {
-      while (!done)
-        {
-        classOneInteraction = new ClassOneInteraction();
-          // An Interaction acts as a VIEW.  If any parameters are needed in addition to the command line args, the Interaction's
-          // constructor prompts the user for, and returns, such parameters.  An Interaction used by the controller inside a loop
-          // must also expose BeQuitCommanded.
+      classOneInteraction = new ClassOneInteraction();
+      classOneInteraction.OnQuitCommanded += biz.classOne.Quit;
+        // An Interaction acts as a VIEW.  If any parameters are needed in addition to the command line args, the Interaction's
+        // constructor prompts the user for, and returns, such parameters.  An Interaction used by the controller inside a loop
+        // must also expose BeQuitCommanded.
 
-        if (classOneInteraction.BeQuitCommanded)
-          {
-          done = true;
-          }
-        else
-          {
-          biz.classOne.Process // Perform this class of processing.
-            (
-            parameterOne:classOneInteraction.ParameterOne,
-            parameterTwo:classOneInteraction.ParameterTwo,
-            OnProgress:classOneInteraction.ShowProgress,
-            OnElaboration:classOneInteraction.ShowElaboration,
-            OnWarning:classOneInteraction.ShowWarning,
-            OnError:classOneInteraction.ShowError,
-            OnFailure:ProcessFailure,
-            OnCompletion:ProcessCompletion,
-            OnDebug:classOneInteraction.ShowDebug
-            );
-          }
-        }
-      }
-
-    static void ProcessFailure(ClassOneBiz.FailureInfo info)
-      {
-      classOneInteraction.ShowFailure(info);
-      done = true;
-      }
-
-    static void ProcessCompletion(ClassOneBiz.CompletionInfo info)
-      {
-      classOneInteraction.ShowCompletion(info);
-      done = true;
+      //--
+      //
+      // Wire up the view to observe the model and execute the business processing.
+      //
+      //--
+      biz.classOne.OnProgress += classOneInteraction.ShowProgress;
+      biz.classOne.OnCompletion += classOneInteraction.ShowCompletion;
+      biz.classOne.OnDebug += classOneInteraction.ShowDebug;
+      biz.classOne.OnWarning += classOneInteraction.ShowWarning;
+      biz.classOne.OnError += classOneInteraction.ShowError;
+      biz.classOne.OnFailure += classOneInteraction.ShowFailure;
+      //
+      biz.classOne.Process // Perform this class of processing.
+        (
+        parameterOne:classOneInteraction.ParameterOne,
+        parameterTwo:classOneInteraction.ParameterTwo
+        );
       }
 
     }

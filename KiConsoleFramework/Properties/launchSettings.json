@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "KiConsoleFramework": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

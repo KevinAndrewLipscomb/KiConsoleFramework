@@ -10,7 +10,6 @@ namespace KiConsoleFramework.Views
     // If any parameters are needed in addition to the command line args, provide a Get() method that prompts the user
     // for, and returns, such parameters.  If used by the controller inside a loop, expose BeQuitRequested.
 
-    private bool beQuitCommanded = false;
     private static readonly ILog log = LogManager.GetLogger(nameof(ClassOneInteraction));
     private string parameterOne;
     private string parameterTwo;
@@ -22,9 +21,11 @@ namespace KiConsoleFramework.Views
       ConsoleKey.Spacebar
       };
 
-    public bool BeQuitCommanded {get => beQuitCommanded;}
     public string ParameterOne {get => parameterOne;}
     public string ParameterTwo {get => parameterTwo;}
+
+    public event EventHandler OnQuitCommanded;
+    protected virtual void ReportQuitCommanded() => OnQuitCommanded?.Invoke(this,null);
 
     public ClassOneInteraction() // CONSTRUCTOR
       {
@@ -40,7 +41,7 @@ namespace KiConsoleFramework.Views
         }
       Console.WriteLine($"{message.TrimEnd('|')}.");
       //
-      beQuitCommanded = Console.KeyAvailable;
+      if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
     private bool BeQuitKeyPressed()
@@ -59,50 +60,67 @@ namespace KiConsoleFramework.Views
       )
       {
       Console.WriteLine($"entityOne = {entityOne}");
-      beQuitCommanded = BeQuitKeyPressed();
+      if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
-    public void ShowCompletion(ClassOneBiz.CompletionInfo info)
+    public void ShowProgress
+      (
+      object source,
+      ClassOneBiz.EventArgs e)
       {
-      Console.WriteLine($"{info.content}");
+      Console.Write($"{e.content}");
+      //Console.WriteLine($"{e.content}");
+      if (BeQuitKeyPressed()) ReportQuitCommanded();
+      }
+
+    public void ShowCompletion
+      (
+      object source,
+      ClassOneBiz.EventArgs e
+      )
+      {
+      Console.WriteLine($"{e.content}");
       Console.WriteLine("Program done.");
       }
 
-    public void ShowDebug(ClassOneBiz.DebugInfo info)
+    public void ShowDebug
+      (
+      object source,
+      string text
+      )
       {
-      log.Debug($"{info.content}");
-      beQuitCommanded = BeQuitKeyPressed();
+      log.Debug($"{source}: {text}");
+      if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
-    public void ShowElaboration(ClassOneBiz.ElaborationInfo info)
+    public void ShowWarning
+      (
+      object source,
+      string text
+      )
       {
-      log.Info($"{info.content}");
-      beQuitCommanded = BeQuitKeyPressed();
+      log.Warn($"{source}: {text}");
+      if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
-    public void ShowError(ClassOneBiz.ErrorInfo info)
+    public void ShowError
+      (
+      object source,
+      string text
+      )
       {
-      log.Error($"{info.content}");
-      beQuitCommanded = BeQuitKeyPressed();
+      log.Error($"{source}: {text}");
+      if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
-    public void ShowFailure(ClassOneBiz.FailureInfo info)
+    public void ShowFailure
+      (
+      object source,
+      string text
+      )
       {
-      log.Fatal($"{info.content}");
+      log.Fatal($"{source}: {text}");
       log.Fatal("Program done.");
-      }
-
-    public void ShowProgress(ClassOneBiz.ProgressInfo info)
-      {
-      //Console.Write($"{info.content}");
-      Console.WriteLine($"{info.content}");
-      beQuitCommanded = BeQuitKeyPressed();
-      }
-
-    public void ShowWarning(ClassOneBiz.WarningInfo info)
-      {
-      log.Warn($"{info.content}");
-      beQuitCommanded = BeQuitKeyPressed();
       }
 
     }
