@@ -1,5 +1,6 @@
 ﻿using KiConsoleFramework.Data;
 using System;
+using System.Collections.Specialized;
 using System.Threading;
 
 namespace KiConsoleFramework.Models
@@ -8,6 +9,7 @@ namespace KiConsoleFramework.Models
     {
 
     private readonly IClassOneDb classOneDb = null;
+    private readonly NameValueCollection appSettings = null;
     private bool BeQuitCommanded = false;
 
     public class EventArgs
@@ -27,9 +29,14 @@ namespace KiConsoleFramework.Models
     protected virtual void ReportError(string text) => OnError?.Invoke(this,text);
     protected virtual void ReportFailure(string text) => OnFailure?.Invoke(this,text);
 
-    public ClassOneBiz(IClassOneDb classOneDb_imp) // CONSTRUCTOR
+    public ClassOneBiz // CONSTRUCTOR
+      (
+      IClassOneDb classOneDb_imp,
+      NameValueCollection appSettings_imp
+      )
       {
       classOneDb = classOneDb_imp;
+      appSettings = appSettings_imp;
       }
 
     public void Process

@@ -1,4 +1,5 @@
 ﻿using KiConsoleFramework.Data;
+using System.Configuration;
 
 namespace KiConsoleFramework.Models
   {
@@ -12,7 +13,8 @@ namespace KiConsoleFramework.Models
 
     public ClassOneBiz classOne = new
       (
-      classOneDb_imp:classOneMysqlDb
+      classOneDb_imp:classOneMysqlDb,
+      appSettings_imp:ConfigurationManager.AppSettings
       );
 
     }
