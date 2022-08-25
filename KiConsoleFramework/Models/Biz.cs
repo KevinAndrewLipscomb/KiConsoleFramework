@@ -4,7 +4,7 @@ using System.Configuration;
 namespace KiConsoleFramework.Models
   {
   /// <summary>
-  /// The composite root of the application
+  /// The composition root of the application
   /// </summary>
   public class Biz
     {
