@@ -15,7 +15,7 @@ namespace KiConsoleFramework
         ServiceName = Program.ServiceName;
         }
 
-      protected override void OnStart(string[] args) => Start(args);
+      protected override void OnStart(string[] args) => Work(args);
 
       protected override void OnStop() => Stop();
 

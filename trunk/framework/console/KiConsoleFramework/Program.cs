@@ -33,9 +33,9 @@ namespace KiConsoleFramework
           // constructor prompts the user for, and returns, such parameters.  An Interaction used by the controller inside a loop
           // must also expose BeQuitCommanded.
 
-        Start(args);
+        Work(args);
           // This blocks until the biz layer (the model) is complete.  The model observes the interaction (the view), which offers
-          // the user a way to command a quit, so the model may complete at the behest of the user.
+          // the user a way to command a quit, so the model may complete on its own or quit at the behest of the user.
 
         Stop();
         }
@@ -50,7 +50,7 @@ namespace KiConsoleFramework
 
       }
 
-    static private void Start(string[] args)
+    static private void Work(string[] args)
       {
       //--
       //
