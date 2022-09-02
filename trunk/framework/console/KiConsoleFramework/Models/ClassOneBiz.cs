@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace KiConsoleFramework.Models
   {
-  public class ClassOneBiz : BizClassBase
+  public class ClassOneBiz : ObjectBiz
     {
 
     private readonly IClassOneDb classOneDb = null;

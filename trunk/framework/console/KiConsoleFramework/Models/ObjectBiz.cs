@@ -2,7 +2,7 @@
 
 namespace KiConsoleFramework.Models
   {
-  public abstract class BizClassBase
+  public abstract class ObjectBiz
     {
 
     protected bool BeQuitCommanded = false;
