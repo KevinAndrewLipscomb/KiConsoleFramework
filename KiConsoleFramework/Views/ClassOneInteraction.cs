@@ -1,4 +1,5 @@
 ﻿using KiConsoleFramework.Models;
+using kix;
 using log4net;
 using log4net.Config;
 using System;
@@ -41,9 +42,9 @@ namespace KiConsoleFramework.Views
       var message = "To quit, press any of ";
       foreach (var quitKey in quitKeyList)
         {
-        message += $"{quitKey}|";
+        message += $"{quitKey}{k.SPACE}|{k.SPACE}";
         }
-      Console.WriteLine($"{message.TrimEnd('|')}.");
+      Console.WriteLine(message.TrimEnd(new char[] {'|',k.SPACE[0]}));
       //
       if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
