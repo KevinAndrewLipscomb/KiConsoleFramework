@@ -1,6 +1,7 @@
 ﻿using KiConsoleFramework.Models;
 using KiConsoleFramework.Views;
 using System;
+using System.Diagnostics;
 using System.ServiceProcess;
 
 namespace KiConsoleFramework
@@ -22,49 +23,64 @@ namespace KiConsoleFramework
     /// <param name="args">Command line arguments</param>
     static void Main(string[] args)
       {
-      if (Environment.UserInteractive)
+
+      classOneInteraction = new ClassOneInteraction();
+        // An Interaction acts as a VIEW.
+
+      try
         {
-        //
-        // running as console app
-        //
-        classOneInteraction = new ClassOneInteraction();
-        classOneInteraction.OnQuitCommanded += biz.classOne.Quit;
-          // An Interaction acts as a VIEW.  If any parameters are needed in addition to the command line args, the Interaction's
-          // constructor prompts the user for, and returns, such parameters.  An Interaction used by the controller inside a loop
-          // must also expose BeQuitCommanded.
+        if (Environment.UserInteractive)
+          {
+          //
+          // running as console app
+          //
+          classOneInteraction.OnQuitCommanded += biz.classOne.Quit;
+            // An Interaction used by the controller inside a loop must also expose BeQuitCommanded.  If any parameters are needed in
+            // addition to the command line args, the Interaction's constructor prompts the user for, and returns, such parameters.  
 
-        Work(args);
-          // This blocks until the biz layer (the model) is complete.  The model observes the interaction (the view), which offers
-          // the user a way to command a quit, so the model may complete on its own or quit at the behest of the user.
+          Work(args);
+            // This blocks until the biz layer (the model) is complete.  The model observes the interaction (the view), which offers
+            // the user a way to command a quit, so the model may complete on its own or quit at the behest of the user.
 
-        Stop();
+          Stop();
+          }
+        else
+          {
+          //
+          // running as service
+          //
+          using var service = new Service();
+          ServiceBase.Run(service);
+          }
         }
-      else
+      catch (Exception e)
         {
-        //
-        // running as service
-        //
-        using var service = new Service();
-        ServiceBase.Run(service);
+        classOneInteraction.ShowFailure(Process.GetCurrentProcess().ProcessName,$"{e}");
         }
 
       }
 
     static private void Work(string[] args)
       {
-      //--
       //
-      // Wire up the view to observe the model and execute the business processing.
+      // Wire up the view to observe each public ObjectBiz field/class in the model.
       //
-      //--
-      biz.classOne.OnProgress += classOneInteraction.ShowProgress;
-      biz.classOne.OnCompletion += classOneInteraction.ShowCompletion;
-      biz.classOne.OnDebug += classOneInteraction.ShowDebug;
-      biz.classOne.OnWarning += classOneInteraction.ShowWarning;
-      biz.classOne.OnError += classOneInteraction.ShowError;
-      biz.classOne.OnFailure += classOneInteraction.ShowFailure;
+      foreach(var field_info in typeof(Biz).GetFields())
+        {
+        if (field_info.FieldType.IsSubclassOf(typeof(ObjectBiz)))
+          {
+          (field_info.GetValue(biz) as ObjectBiz).OnProgress += classOneInteraction.ShowProgress;
+          (field_info.GetValue(biz) as ObjectBiz).OnCompletion += classOneInteraction.ShowCompletion;
+          (field_info.GetValue(biz) as ObjectBiz).OnDebug += classOneInteraction.ShowDebug;
+          (field_info.GetValue(biz) as ObjectBiz).OnWarning += classOneInteraction.ShowWarning;
+          (field_info.GetValue(biz) as ObjectBiz).OnError += classOneInteraction.ShowError;
+          (field_info.GetValue(biz) as ObjectBiz).OnFailure += classOneInteraction.ShowFailure;
+          }
+        }
       //
-      biz.classOne.Process // Perform this class of processing.
+      // Execute the business processing.
+      //
+      biz.classOne.Process
         (
         parameterOne:classOneInteraction.ParameterOne,
         parameterTwo:classOneInteraction.ParameterTwo
