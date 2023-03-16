@@ -106,7 +106,17 @@ namespace KiConsoleFramework.Views
       string text
       )
       {
-      if (!BeUsingProgressWriteLines)
+      if(
+          !BeUsingProgressWriteLines
+        &&
+          (
+            (logAction == log.Debug && log.IsDebugEnabled)
+          ||
+            (logAction == log.Warn && log.IsWarnEnabled)
+          ||
+            (logAction == log.Error && log.IsErrorEnabled)
+          )
+        )
         {
         Console.WriteLine();
         }
