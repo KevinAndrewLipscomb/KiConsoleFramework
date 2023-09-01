@@ -131,5 +131,11 @@ namespace KiConsoleFramework.Views
     public void ShowWarning(object source, string text) => ShowExtraNormal(log.Warn, source, text);
     public void ShowError(object source, string text) => ShowExtraNormal(log.Error, source, text);
 
+    public void Pause()
+      {
+      Console.Write("Press any key to continue . . . ");
+      Console.ReadLine();
+      }
+
     }
   }
