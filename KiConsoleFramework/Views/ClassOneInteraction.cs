@@ -12,17 +12,19 @@ namespace KiConsoleFramework.Views
     // If any parameters are needed in addition to the command line args, provide a Get() method that prompts the user
     // for, and returns, such parameters.  If used by the controller inside a loop, expose BeQuitRequested.
 
-    private static readonly ILog log = LogManager.GetLogger(typeof(ClassOneInteraction));
-    private bool BeUsingProgressWriteLines = false;
-    private string parameterOne;
-    private string parameterTwo;
-    private readonly List<ConsoleKey> quitKeyList = new()
+    static readonly private ILog log = LogManager.GetLogger(typeof(ClassOneInteraction));
+
+    readonly private bool BeUsingProgressWriteLines = false;
+    readonly private List<ConsoleKey> quitKeyList = new()
       {
       ConsoleKey.Enter,
       ConsoleKey.Escape,
       ConsoleKey.Q,
       ConsoleKey.Spacebar
       };
+
+    private string parameterOne;
+    private string parameterTwo;
 
     public string ParameterOne {get => parameterOne;}
     public string ParameterTwo {get => parameterTwo;}
