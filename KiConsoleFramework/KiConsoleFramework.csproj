@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MySql.Data" Version="8.0.32.1" />
+    <PackageReference Include="Spectre.Console" Version="0.47.0" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="6.0.1" />
   </ItemGroup>
 

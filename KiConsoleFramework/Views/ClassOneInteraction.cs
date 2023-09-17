@@ -2,6 +2,7 @@
 using kix;
 using log4net;
 using log4net.Config;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 
@@ -36,17 +37,15 @@ namespace KiConsoleFramework.Views
       {
       XmlConfigurator.Configure(); // reads log4net configuration
       //
-      Console.Write("Please enter a value for parameterOne: ");
-      parameterOne = Console.ReadLine();
-      Console.Write("Please enter a value for parameterTwo: ");
-      parameterTwo = Console.ReadLine();
+      parameterOne = AnsiConsole.Ask<string>(prompt:"Please enter a value for parameterOne:");
+      parameterTwo = AnsiConsole.Ask<string>(prompt: "Please enter a value for parameterTwo:");
       //
       var message = "To quit, press any of ";
       foreach (var quitKey in quitKeyList)
         {
         message += $"{quitKey}{k.SPACE}|{k.SPACE}";
         }
-      Console.WriteLine(message.TrimEnd(new char[] {'|',k.SPACE[0]}));
+      AnsiConsole.WriteLine(message.TrimEnd(new char[] {'|',k.SPACE[0]}));
       //
       if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
@@ -66,7 +65,7 @@ namespace KiConsoleFramework.Views
       //string entityOne.AttributeSecond
       )
       {
-      Console.WriteLine($"entityOne = {entityOne}");
+      AnsiConsole.WriteLine($"entityOne = {entityOne}");
       if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
@@ -75,8 +74,8 @@ namespace KiConsoleFramework.Views
       object source,
       ClassOneBiz.EventArgs e)
       {
-      Console.Write($"{e.content}");
-      //Console.WriteLine($"{e.content}");
+      AnsiConsole.Write($"{e.content}");
+      //AnsiConsole.WriteLine($"{e.content}");
       if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
@@ -86,8 +85,8 @@ namespace KiConsoleFramework.Views
       ClassOneBiz.EventArgs e
       )
       {
-      Console.WriteLine($"{e.content}");
-      Console.WriteLine("Program done.");
+      AnsiConsole.WriteLine($"{e.content}");
+      AnsiConsole.WriteLine("Program done.");
       }
 
     public void ShowFailure
@@ -96,7 +95,7 @@ namespace KiConsoleFramework.Views
       string text
       )
       {
-      if (!BeUsingProgressWriteLines) Console.WriteLine();
+      if (!BeUsingProgressWriteLines) AnsiConsole.WriteLine();
       log.Fatal($"{source}: {text}");
       log.Fatal("Program done.");
       }
@@ -120,7 +119,7 @@ namespace KiConsoleFramework.Views
           )
         )
         {
-        Console.WriteLine();
+        AnsiConsole.WriteLine();
         }
       logAction($"{source}: {text}");
       if (BeQuitKeyPressed())
