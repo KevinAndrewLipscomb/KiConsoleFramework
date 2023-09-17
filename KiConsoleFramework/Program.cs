@@ -9,6 +9,7 @@ namespace KiConsoleFramework
   /// <summary>
   /// Performs such-and-such.  Can be invoked as a console application or as a Windows Service.
   /// </summary>
+  [System.Runtime.Versioning.SupportedOSPlatform("windows")] // but may require modificaiton to run as a daemon via Mono
   partial class Program
     {
 
