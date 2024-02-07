@@ -1,4 +1,6 @@
-﻿using System.ServiceProcess;
+﻿using System.Threading;
+using System.ServiceProcess;
+using System.Threading.Tasks;
 
 namespace KiConsoleFramework
   {
@@ -13,11 +15,32 @@ namespace KiConsoleFramework
       public Service() // CONSTRUCTOR
         {
         ServiceName = Program.ServiceName;
+        CancellationTokenSource = new();
+        CancellationToken = CancellationTokenSource.Token;
         }
 
-      protected override void OnStart(string[] args) => Work(args);
+      protected override void OnStart(string[] args)
+        {
+        Task.Run
+          (
+          action:() => Program.Work
+            (
+            args:args,
+            cancellationToken:CancellationToken
+            ),
+          cancellationToken:CancellationToken
+          );
+        }
 
-      protected override void OnStop() => Stop();
+      protected override void OnStop()
+        {
+        CancellationTokenSource.Cancel();
+        CancellationTokenSource.Dispose();
+        Stop();
+        }
+
+      private CancellationToken CancellationToken;
+      private CancellationTokenSource CancellationTokenSource;
 
       }
 

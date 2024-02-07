@@ -9,7 +9,8 @@
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MySql.Data" Version="8.0.30" />
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
