@@ -24,6 +24,7 @@ namespace KiConsoleFramework
     /// <param name="args">Command line arguments</param>
     static void Main(string[] args)
       {
+      log4net.Config.XmlConfigurator.Configure(); // required when HmdsAlerts.exe.config delegates log4net config to its own file via the configSource attribute.
 
       mainInteraction = new MainInteraction();
         // An Interaction acts as a VIEW.
