@@ -1,8 +1,9 @@
-﻿using KiConsoleFramework.Models;
-using KiConsoleFramework.Views;
+﻿using KiConsoleFramework.Model;
+using KiConsoleFramework.View;
 using System;
 using System.Diagnostics;
 using System.ServiceProcess;
+using System.Threading;
 
 namespace KiConsoleFramework
   {
@@ -16,7 +17,7 @@ namespace KiConsoleFramework
     static readonly private Biz biz = new();
       // COMPOSITION ROOT; exposes elements of the MODEL
 
-    static private ClassOneInteraction classOneInteraction;
+    static private MainInteraction mainInteraction;
 
     /// <summary>
     /// Serves as the CONTROLLER
@@ -24,8 +25,9 @@ namespace KiConsoleFramework
     /// <param name="args">Command line arguments</param>
     static void Main(string[] args)
       {
+      log4net.Config.XmlConfigurator.Configure(); // required when HmdsAlerts.exe.config delegates log4net config to its own file via the configSource attribute.
 
-      classOneInteraction = new ClassOneInteraction();
+      mainInteraction = new MainInteraction();
         // An Interaction acts as a VIEW.
 
       try
@@ -35,15 +37,14 @@ namespace KiConsoleFramework
           //
           // running as console app
           //
-          classOneInteraction.OnQuitCommanded += biz.classOne.Quit;
+          mainInteraction.OnQuitCommanded += biz.classOne.Quit;
             // An Interaction used by the controller inside a loop must also expose BeQuitCommanded.  If any parameters are needed in
-            // addition to the command line args, the Interaction's constructor prompts the user for, and returns, such parameters.  
+            // addition to the command line args, the Interaction's constructor prompts the user for, and returns, such parameters.
 
           Work(args);
             // This blocks until the biz layer (the model) is complete.  The model observes the interaction (the view), which offers
             // the user a way to command a quit, so the model may complete on its own or quit at the behest of the user.
 
-          Stop();
           }
         else
           {
@@ -56,13 +57,18 @@ namespace KiConsoleFramework
         }
       catch (Exception e)
         {
-        classOneInteraction.ShowFailure(Process.GetCurrentProcess().ProcessName,$"{e}");
+        mainInteraction.ShowFailure(Process.GetCurrentProcess().ProcessName,$"{e}");
         }
 
       }
 
-    static private void Work(string[] args)
+    static internal void Work
+      (
+      string[] args,
+      CancellationToken cancellationToken = default
+      )
       {
+      cancellationToken.Register(callback:biz.classOne.Cancel);
       //
       // Wire up the view to observe each public ObjectBiz field/class in the model.
       //
@@ -70,12 +76,12 @@ namespace KiConsoleFramework
         {
         if (field_info.FieldType.IsSubclassOf(typeof(ObjectBiz)))
           {
-          (field_info.GetValue(biz) as ObjectBiz).OnProgress += classOneInteraction.ShowProgress;
-          (field_info.GetValue(biz) as ObjectBiz).OnCompletion += classOneInteraction.ShowCompletion;
-          (field_info.GetValue(biz) as ObjectBiz).OnDebug += classOneInteraction.ShowDebug;
-          (field_info.GetValue(biz) as ObjectBiz).OnWarning += classOneInteraction.ShowWarning;
-          (field_info.GetValue(biz) as ObjectBiz).OnError += classOneInteraction.ShowError;
-          (field_info.GetValue(biz) as ObjectBiz).OnFailure += classOneInteraction.ShowFailure;
+          (field_info.GetValue(biz) as ObjectBiz).OnProgress += mainInteraction.ShowProgress;
+          (field_info.GetValue(biz) as ObjectBiz).OnCompletion += mainInteraction.ShowCompletion;
+          (field_info.GetValue(biz) as ObjectBiz).OnDebug += mainInteraction.ShowDebug;
+          (field_info.GetValue(biz) as ObjectBiz).OnWarning += mainInteraction.ShowWarning;
+          (field_info.GetValue(biz) as ObjectBiz).OnError += mainInteraction.ShowError;
+          (field_info.GetValue(biz) as ObjectBiz).OnFailure += mainInteraction.ShowFailure;
           }
         }
       //
@@ -83,14 +89,14 @@ namespace KiConsoleFramework
       //
       biz.classOne.Process
         (
-        parameterOne:classOneInteraction.ParameterOne,
-        parameterTwo:classOneInteraction.ParameterTwo
+        parameterOne:mainInteraction.ParameterOne,
+        parameterTwo:mainInteraction.ParameterTwo
         );
       }
 
     static private void Stop()
       {
-      // onstop code here
+      biz.classOne.Quit();
       }
 
     }
