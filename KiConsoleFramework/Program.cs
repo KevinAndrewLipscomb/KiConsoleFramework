@@ -2,15 +2,12 @@
 using KiConsoleFramework.View;
 using System;
 using System.Diagnostics;
-using System.ServiceProcess;
-using System.Threading;
 
 namespace KiConsoleFramework
   {
   /// <summary>
   /// Performs such-and-such.  Can be invoked as a console application or as a Windows Service.
   /// </summary>
-  [System.Runtime.Versioning.SupportedOSPlatform("windows")] // but may require modificaiton to run as a daemon via Mono
   partial class Program
     {
 
@@ -25,49 +22,34 @@ namespace KiConsoleFramework
     /// <param name="args">Command line arguments</param>
     static void Main(string[] args)
       {
-
-      mainInteraction = new MainInteraction();
-        // An Interaction acts as a VIEW.
-
       try
         {
         if (Environment.UserInteractive)
           {
           //
-          // running as console app
+          // running as console app (as opposed to a scheduled task)
           //
+          mainInteraction = new MainInteraction();
+            // An Interaction acts as a VIEW.
           mainInteraction.OnQuitCommanded += biz.classOne.Quit;
             // An Interaction used by the controller inside a loop must also expose BeQuitCommanded.  If any parameters are needed in
             // addition to the command line args, the Interaction's constructor prompts the user for, and returns, such parameters.
-
-          Work(args);
-            // This blocks until the biz layer (the model) is complete.  The model observes the interaction (the view), which offers
-            // the user a way to command a quit, so the model may complete on its own or quit at the behest of the user.
-
           }
-        else
-          {
-          //
-          // running as service
-          //
-          using var service = new Service();
-          ServiceBase.Run(service);
-          }
+        Work(args);
+          // This blocks until the biz layer (the model) is complete.  The model observes the interaction (the view), which offers
+          // the user a way to command a quit, so the model may complete on its own or quit at the behest of the user.
         }
       catch (Exception e)
         {
         mainInteraction.ShowFailure(Process.GetCurrentProcess().ProcessName,$"{e}");
         }
-
       }
 
     static internal void Work
       (
-      string[] args,
-      CancellationToken cancellationToken = default
+      string[] args
       )
       {
-      cancellationToken.Register(callback:biz.classOne.Cancel);
       //
       // Wire up the view to observe each public ObjectBiz field/class in the model.
       //
@@ -91,11 +73,6 @@ namespace KiConsoleFramework
         parameterOne:mainInteraction.ParameterOne,
         parameterTwo:mainInteraction.ParameterTwo
         );
-      }
-
-    static private void Stop()
-      {
-      biz.classOne.Quit();
       }
 
     }
