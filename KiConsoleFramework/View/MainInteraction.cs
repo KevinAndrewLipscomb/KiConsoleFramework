@@ -8,24 +8,10 @@ using System.Collections.Generic;
 
 namespace KiConsoleFramework.View
   {
-  class ClassOneInteraction
+  class MainInteraction
     {
     // If any parameters are needed in addition to the command line args, provide a Get() method that prompts the user
     // for, and returns, such parameters.  If used by the controller inside a loop, expose BeQuitRequested.
-
-    static readonly private ILog log = LogManager.GetLogger(typeof(ClassOneInteraction));
-
-    readonly private bool BeUsingProgressWriteLines = false;
-    readonly private List<ConsoleKey> quitKeyList = new()
-      {
-      ConsoleKey.Enter,
-      ConsoleKey.Escape,
-      ConsoleKey.Q,
-      ConsoleKey.Spacebar
-      };
-
-    private string parameterOne;
-    private string parameterTwo;
 
     public string ParameterOne {get => parameterOne;}
     public string ParameterTwo {get => parameterTwo;}
@@ -33,7 +19,7 @@ namespace KiConsoleFramework.View
     public event EventHandler OnQuitCommanded;
     protected virtual void ReportQuitCommanded() => OnQuitCommanded?.Invoke(this,null);
 
-    public ClassOneInteraction() // CONSTRUCTOR
+    public MainInteraction() // CONSTRUCTOR
       {
       XmlConfigurator.Configure(); // reads log4net configuration
       //
@@ -48,11 +34,6 @@ namespace KiConsoleFramework.View
       AnsiConsole.WriteLine(message.TrimEnd(new char[] {'|',k.SPACE[0]}));
       //
       if (BeQuitKeyPressed()) ReportQuitCommanded();
-      }
-
-    private bool BeQuitKeyPressed()
-      {
-      return !Console.IsInputRedirected && Console.KeyAvailable && quitKeyList.Contains(Console.ReadKey(intercept:true).Key);
       }
 
     public void ShowEntityOne
@@ -100,6 +81,33 @@ namespace KiConsoleFramework.View
       log.Fatal("Program done.");
       }
 
+    public void ShowDebug(object source, string text) => ShowExtraNormal(log.Debug, source, text);
+    public void ShowWarning(object source, string text) => ShowExtraNormal(log.Warn, source, text);
+    public void ShowError(object source, string text) => ShowExtraNormal(log.Error, source, text);
+
+    public void Pause()
+      {
+      Console.Write("Press any key to continue . . . ");
+      Console.ReadLine();
+      }
+
+    private static readonly ILog log = LogManager.GetLogger(typeof(MainInteraction));
+    private bool BeUsingProgressWriteLines = false;
+    private string parameterOne;
+    private string parameterTwo;
+    private readonly List<ConsoleKey> quitKeyList = new()
+      {
+      ConsoleKey.Enter,
+      ConsoleKey.Escape,
+      ConsoleKey.Q,
+      ConsoleKey.Spacebar
+      };
+
+    private bool BeQuitKeyPressed()
+      {
+      return !Console.IsInputRedirected && Console.KeyAvailable && quitKeyList.Contains(Console.ReadKey(intercept:true).Key);
+      }
+
     private void ShowExtraNormal
       (
       Action<object> logAction,
@@ -127,10 +135,6 @@ namespace KiConsoleFramework.View
         ReportQuitCommanded();
         }
       }
-
-    public void ShowDebug(object source, string text) => ShowExtraNormal(log.Debug, source, text);
-    public void ShowWarning(object source, string text) => ShowExtraNormal(log.Warn, source, text);
-    public void ShowError(object source, string text) => ShowExtraNormal(log.Error, source, text);
 
     }
   }

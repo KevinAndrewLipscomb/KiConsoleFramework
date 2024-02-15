@@ -5,7 +5,7 @@ using System.Data;
 
 namespace KiConsoleFramework.Repo
   {
-  public abstract class ClassMysqlDb
+  public abstract class ClassMysqlRepo
     {
 
     private MySqlConnection the_connection = null;
@@ -16,7 +16,7 @@ namespace KiConsoleFramework.Repo
       set => the_connection = value;
       }
 
-    public ClassMysqlDb() : base() // CONSTRUCTOR
+    public ClassMysqlRepo() : base() // CONSTRUCTOR
       {
       the_connection = new MySqlConnection(connectionString:ConfigurationManager.AppSettings["db_connection_string"]);
       }

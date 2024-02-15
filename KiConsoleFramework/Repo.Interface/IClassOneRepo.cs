@@ -1,7 +1,8 @@
-﻿namespace KiConsoleFramework.Repo
+﻿namespace KiConsoleFramework.Repo.Interface
   {
   public interface IClassOneRepo
     {
+
     void Delete(string username);
     bool Get
       (
@@ -14,5 +15,6 @@
       out string last_login
       );
     string IdOf(string username);
+
     }
   }

@@ -1,4 +1,5 @@
-﻿using KiConsoleFramework.Repo;
+﻿using KiConsoleFramework.Repo.Interface;
+using System;
 using System.Collections.Specialized;
 using System.Threading;
 
@@ -7,17 +8,14 @@ namespace KiConsoleFramework.Model
   public class ClassOneBiz : ObjectBiz
     {
 
-    private readonly IClassOneRepo classOneDb = null;
-    private readonly NameValueCollection appSettings = null;
-
     public ClassOneBiz // CONSTRUCTOR
       (
-      IClassOneRepo classOneDb_imp,
-      NameValueCollection appSettings_imp
+      NameValueCollection appSettings_imp,
+      IClassOneRepo repo_imp
       )
       {
-      classOneDb = classOneDb_imp;
-      appSettings = appSettings_imp;
+      Repo = repo_imp;
+      AppSettings = appSettings_imp;
       }
 
     public void Process
@@ -31,22 +29,37 @@ namespace KiConsoleFramework.Model
       // Perform this class of processing, monitoring for a commanded quit, and making reports as necessary.
       //
       // --
-      var done = false;
-      while (!BeQuitCommanded && !done)
+      try
         {
-        ReportProgress(e:new("."));
-        Thread.Sleep(millisecondsTimeout:1000);
+        var done = false;
+        while (!BeQuitCommanded && !done)
+          {
+          ReportProgress(e:new("."));
+          Thread.Sleep(millisecondsTimeout:1000);
+          }
+        //
+        if (BeQuitCommanded)
+          {
+          ReportWarning(text:"Process interrupted.");
+          }
+        else
+          {
+          ReportCompletion(e:new("Process complete."));
+          }
         }
-      //
-      if (BeQuitCommanded)
+      catch (Exception e)
         {
-        ReportWarning(text:"Process interrupted.");
-        }
-      else
-        {
-        ReportCompletion(e:new("Process complete."));
+        ReportError($"{e}");
         }
       }
+
+    internal void Cancel()
+      {
+      Quit();
+      }
+
+    private readonly NameValueCollection AppSettings = null;
+    private readonly IClassOneRepo Repo = null;
 
     }
   }

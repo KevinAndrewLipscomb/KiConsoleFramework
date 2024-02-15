@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SANDBOX\kveo-it-project\foundation\dotnet\ki\ki.csproj" />
+    <ProjectReference Include="..\..\KiDotnetFoundation\ki.csproj" />
   </ItemGroup>
 
 </Project>

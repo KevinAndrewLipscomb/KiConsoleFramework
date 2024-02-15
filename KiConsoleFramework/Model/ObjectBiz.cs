@@ -24,7 +24,7 @@ namespace KiConsoleFramework.Model
     protected virtual void ReportError(string text) => OnError?.Invoke(this,text);
     protected virtual void ReportFailure(string text) => OnFailure?.Invoke(this,text);
 
-    public void Quit(object sender, System.EventArgs e)
+    public virtual void Quit(object sender = null, System.EventArgs e = null)
       {
       BeQuitCommanded = true;
       }

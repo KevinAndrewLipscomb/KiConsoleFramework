@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace KiConsoleFramework.Repo
   {
-  public class ClassDbTrail : ClassMysqlDb
+  public class ClassDbTrail : ClassMysqlRepo
     {
 
     public ClassDbTrail() : base()

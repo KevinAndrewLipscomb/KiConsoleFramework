@@ -1,4 +1,5 @@
 ﻿using KiConsoleFramework.Repo;
+using KiConsoleFramework.Repo.Interface;
 using System.Configuration;
 
 namespace KiConsoleFramework.Model
@@ -9,12 +10,14 @@ namespace KiConsoleFramework.Model
   public class Biz
     {
 
-    private static readonly ClassOneMySqlRepo classOneMysqlDb = new();
+    static readonly private IClassOneRepo classOneRepo = new ClassOneMysqlRepo // or ClassOneFileRepo
+      (
+      );
 
     public ClassOneBiz classOne = new
       (
-      classOneDb_imp:classOneMysqlDb,
-      appSettings_imp:ConfigurationManager.AppSettings
+      appSettings_imp:ConfigurationManager.AppSettings,
+      repo_imp:classOneRepo
       );
 
     }
