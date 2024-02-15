@@ -1,0 +1,52 @@
+﻿using KiConsoleFramework.Repo;
+using System.Collections.Specialized;
+using System.Threading;
+
+namespace KiConsoleFramework.Model
+  {
+  public class ClassOneBiz : ObjectBiz
+    {
+
+    private readonly IClassOneRepo classOneDb = null;
+    private readonly NameValueCollection appSettings = null;
+
+    public ClassOneBiz // CONSTRUCTOR
+      (
+      IClassOneRepo classOneDb_imp,
+      NameValueCollection appSettings_imp
+      )
+      {
+      classOneDb = classOneDb_imp;
+      appSettings = appSettings_imp;
+      }
+
+    public void Process
+      (
+      string parameterOne,
+      string parameterTwo
+      )
+      {
+      // --
+      //
+      // Perform this class of processing, monitoring for a commanded quit, and making reports as necessary.
+      //
+      // --
+      var done = false;
+      while (!BeQuitCommanded && !done)
+        {
+        ReportProgress(e:new("."));
+        Thread.Sleep(millisecondsTimeout:1000);
+        }
+      //
+      if (BeQuitCommanded)
+        {
+        ReportWarning(text:"Process interrupted.");
+        }
+      else
+        {
+        ReportCompletion(e:new("Process complete."));
+        }
+      }
+
+    }
+  }

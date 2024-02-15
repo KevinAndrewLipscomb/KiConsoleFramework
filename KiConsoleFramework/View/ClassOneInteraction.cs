@@ -1,4 +1,4 @@
-﻿using KiConsoleFramework.Models;
+﻿using KiConsoleFramework.Model;
 using kix;
 using log4net;
 using log4net.Config;
@@ -6,7 +6,7 @@ using Spectre.Console;
 using System;
 using System.Collections.Generic;
 
-namespace KiConsoleFramework.Views
+namespace KiConsoleFramework.View
   {
   class ClassOneInteraction
     {

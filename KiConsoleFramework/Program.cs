@@ -1,5 +1,5 @@
-﻿using KiConsoleFramework.Models;
-using KiConsoleFramework.Views;
+﻿using KiConsoleFramework.Model;
+using KiConsoleFramework.View;
 using System;
 using System.Diagnostics;
 using System.ServiceProcess;
