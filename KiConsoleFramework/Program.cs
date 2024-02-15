@@ -22,22 +22,23 @@ namespace KiConsoleFramework
     /// <param name="args">Command line arguments</param>
     static void Main(string[] args)
       {
+
+      mainInteraction = new MainInteraction();
+        // An Interaction acts as a VIEW.
+
       try
         {
-        if (Environment.UserInteractive)
+        if (Environment.UserInteractive) // running as console app
           {
-          //
-          // running as console app (as opposed to a scheduled task)
-          //
-          mainInteraction = new MainInteraction();
-            // An Interaction acts as a VIEW.
           mainInteraction.OnQuitCommanded += biz.classOne.Quit;
             // An Interaction used by the controller inside a loop must also expose BeQuitCommanded.  If any parameters are needed in
             // addition to the command line args, the Interaction's constructor prompts the user for, and returns, such parameters.
           }
+
         Work(args);
           // This blocks until the biz layer (the model) is complete.  The model observes the interaction (the view), which offers
           // the user a way to command a quit, so the model may complete on its own or quit at the behest of the user.
+
         }
       catch (Exception e)
         {
