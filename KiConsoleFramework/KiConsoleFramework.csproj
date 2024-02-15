@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
+    <None Remove="Config\Template\template-sensitiveAppSettings.config-template" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
+    <Content Include="Config\Template\template-sensitiveAppSettings.config-template" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MySql.Data" Version="8.0.32.1" />
     <PackageReference Include="Spectre.Console" Version="0.47.0" />
@@ -15,6 +25,35 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\KiDotnetFoundation\ki.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.DEVELOPMENT.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Update="Config\Detail\appSettings.DEVELOPMENT.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\Detail\appSettings.PRODUCTION.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\Detail\appSettings.X.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\Detail\log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\Sensitive\sensitiveAppSettings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="KiConsoleFramework.exe.PRODUCTION.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Update="KiConsoleFramework.exe.X.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>App.config</DependentUpon>
+    </None>
   </ItemGroup>
 
 </Project>
