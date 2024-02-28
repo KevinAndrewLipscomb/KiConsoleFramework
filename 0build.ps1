@@ -1,4 +1,4 @@
-# Derived from KiZeroBuild/0build.cmd
+# Derived from KiZeroBuild/0build.ps1
 #
 # Remove unneeded lines.
 #
