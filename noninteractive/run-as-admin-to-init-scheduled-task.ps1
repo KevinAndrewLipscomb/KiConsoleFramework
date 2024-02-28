@@ -1,3 +1,5 @@
+#Requires -RunAsAdministrator
+#
 $taskName = "KiConsoleFramework"
 Stop-ScheduledTask -TaskName $taskName |
   Unregister-ScheduledTask
