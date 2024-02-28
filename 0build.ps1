@@ -2,6 +2,28 @@
 #
 # Remove unneeded lines.
 #
+
+function Remove-DescendentEach
+  {
+  param
+    (
+    [string[]] $items,
+    [switch] $noWriteHost = $false
+    )
+  foreach ($item in $items)
+    {
+    if (!$noWriteHost)
+      {
+      Write-Host -NoNewLine "-- Removing '**/$item'..."
+      }
+    Get-ChildItem -Recurse -Force | Where-Object Name -eq $item | Remove-Item -Recurse -Force
+    if (!$noWriteHost)
+      {
+      Write-Host "DONE."
+      }
+    }
+  }
+
 Write-Host ""
 Write-Host "*"
 Write-Host "* Make sure any instance of Visual Studio that has touched KiConsoleFramework.sln has been shut down."
@@ -16,32 +38,7 @@ Write-Host ""
 Write-Host ""
 Write-Host "OPERATING AT SOLUTION LEVEL..."
 Write-Host ""
-$derivedFolders =
-  ".vs",
-  "bin",
-  "node_modules",
-  "obj",
-  "packages"
-foreach ($derivedFolder in $derivedFolders)
-  {
-  Write-Host -NoNewLine "-- Removing solution's $derivedFolder folder(s)..."
-  if (Test-Path $derivedFolder)
-    {
-    Remove-Item $derivedFolder -Recurse -Force
-    }
-  Write-Host "DONE."
-  }
-$derivedFiles =
-  "*.*proj.user"
-foreach ($derivedFile in $derivedFiles)
-  {
-  Write-Host -NoNewLine "-- Removing solution's $derivedFile file(s)..."
-  if (Test-Path .vs)
-    {
-    Remove-Item *.*proj.user -Recurse -Force
-    }
-  Write-Host "DONE".
-  }
+Remove-DescendentEach ".vs","bin","node_modules","obj","package-lock.json","packages","*.*proj.user"
 Write-Host ""
 Write-Host "DESCENDING INTO PROJECT App..."
 Push-Location KiConsoleFramework
