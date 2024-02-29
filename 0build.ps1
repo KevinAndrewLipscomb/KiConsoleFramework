@@ -2,28 +2,6 @@
 #
 # Remove unneeded lines.
 #
-
-function Remove-DescendentEach
-  {
-  param
-    (
-    [string[]] $items,
-    [switch] $noWriteHost = $false
-    )
-  foreach ($item in $items)
-    {
-    if (!$noWriteHost)
-      {
-      Write-Host -NoNewLine "-- Removing '**/$item'..."
-      }
-    Get-ChildItem -Recurse -Force | Where-Object Name -eq $item | Remove-Item -Recurse -Force
-    if (!$noWriteHost)
-      {
-      Write-Host "DONE."
-      }
-    }
-  }
-
 Write-Host ""
 Write-Host "*"
 Write-Host "* Make sure any instance of Visual Studio that has touched KiConsoleFramework.sln has been shut down."
@@ -38,7 +16,28 @@ Write-Host ""
 Write-Host ""
 Write-Host "OPERATING AT SOLUTION LEVEL..."
 Write-Host ""
-Remove-DescendentEach ".vs","bin","node_modules","obj","package-lock.json","packages","*.*proj.user"
+$removalTargets =
+  "*.*proj.user",
+  ".vs",
+  "bin",
+  "Debug", # can exist outside of bin/, especially in Setup projects
+  "node_modules",
+  "obj",
+  "package-lock.json",
+  "packages",
+  "Release" # can exist outside of bin/, especially in Setup projects
+$derivedItems = Get-ChildItem -Recurse -Force | Where-Object Name -in $removalTargets
+if ($derivedItems.Length -eq 0)
+  {
+  Write-Host "No derived items to remove."
+  }
+else
+  {
+  Write-Host "-- Removing derived items..."
+  $derivedItems |
+    Get-Item -ErrorAction:SilentlyContinue | # absorbs errors like when the pipeline calls for removing /bin followed by /bin/Debug
+    Remove-Item -Recurse -Force -Verbose
+  }
 Write-Host ""
 Write-Host "DESCENDING INTO PROJECT App..."
 Push-Location KiConsoleFramework
