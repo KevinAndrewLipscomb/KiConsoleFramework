@@ -6,28 +6,28 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="NoneRemove">
     <None Remove="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
     <None Remove="Config\Template\template-sensitiveAppSettings.config-template" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="Content">
     <Content Include="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
     <Content Include="Config\Template\template-sensitiveAppSettings.config-template" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="PackageReference">
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MySql.Data" Version="8.0.32.1" />
     <PackageReference Include="Spectre.Console" Version="0.47.0" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="6.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="ProjectReference">
     <ProjectReference Include="..\..\KiDotnetFoundation\ki.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="NoneUpdate">
     <None Update="App.DEVELOPMENT.config">
       <DependentUpon>App.config</DependentUpon>
     </None>
