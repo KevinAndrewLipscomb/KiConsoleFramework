@@ -55,8 +55,14 @@ namespace KiConsoleFramework.View
       object source,
       ClassOneBiz.EventArgs e)
       {
-      AnsiConsole.Write($"{e.content}");
-      //AnsiConsole.WriteLine($"{e.content}");
+      if (BeUsingProgressWriteLines)
+        {
+        AnsiConsole.WriteLine($"{e.content}");
+        }
+      else
+        {
+        AnsiConsole.Write($"{e.content}");
+        }
       if (BeQuitKeyPressed()) ReportQuitCommanded();
       }
 
@@ -79,6 +85,7 @@ namespace KiConsoleFramework.View
       if (!BeUsingProgressWriteLines) AnsiConsole.WriteLine();
       log.Fatal($"{source}: {text}");
       log.Fatal("Program done.");
+      Pause();
       }
 
     public void ShowDebug(object source, string text) => ShowExtraNormal(log.Debug, source, text);
