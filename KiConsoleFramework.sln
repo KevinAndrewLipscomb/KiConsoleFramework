@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.11.35312.102
+VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KiConsoleFramework", "KiConsoleFramework\KiConsoleFramework.csproj", "{F9967F74-1D5D-4EC8-BCF3-6BAA267128BB}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		0build.cmd = 0build.cmd
-		Directory.Build.props = Directory.Build.props
 		work.bat = work.bat
 	EndProjectSection
 EndProject
