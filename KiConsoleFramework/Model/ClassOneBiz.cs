@@ -49,7 +49,7 @@ namespace KiConsoleFramework.Model
         }
       catch (Exception e)
         {
-        ReportError($"{e}");
+        ReportFailure($"{e}");
         }
       }
 

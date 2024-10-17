@@ -1,32 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
-
   <ItemGroup Label="NoneRemove">
     <None Remove="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
     <None Remove="Config\Template\template-sensitiveAppSettings.config-template" />
   </ItemGroup>
-
   <ItemGroup Label="Content">
     <Content Include="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
     <Content Include="Config\Template\template-sensitiveAppSettings.config-template" />
   </ItemGroup>
-
   <ItemGroup Label="PackageReference">
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MySql.Data" Version="8.0.32.1" />
     <PackageReference Include="Spectre.Console" Version="0.47.0" />
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="6.0.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
-
   <ItemGroup Label="ProjectReference">
     <ProjectReference Include="..\..\KiDotnetFoundation\ki.csproj" />
   </ItemGroup>
-
   <ItemGroup Label="NoneUpdate">
     <None Update="App.DEVELOPMENT.config">
       <DependentUpon>App.config</DependentUpon>
@@ -55,5 +49,4 @@
       <DependentUpon>App.config</DependentUpon>
     </None>
   </ItemGroup>
-
 </Project>
