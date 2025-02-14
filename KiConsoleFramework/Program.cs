@@ -1,4 +1,4 @@
-﻿using KiConsoleFramework.Model;
+﻿using KiConsoleFramework.Logic;
 using KiConsoleFramework.View;
 using System;
 using System.Diagnostics;

@@ -18,7 +18,7 @@ namespace KiConsoleFramework.Repo
 
     public ClassMysqlRepo() : base() // CONSTRUCTOR
       {
-      the_connection = new MySqlConnection(connectionString:ConfigurationManager.AppSettings["db_connection_string"]);
+      the_connection = new MySqlConnection(connectionString:ConfigurationManager.AppSettings["DbConnectionString"]);
       }
 
     protected void Close()

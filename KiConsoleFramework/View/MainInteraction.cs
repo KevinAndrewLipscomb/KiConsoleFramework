@@ -1,4 +1,4 @@
-﻿using KiConsoleFramework.Model;
+﻿using KiConsoleFramework.Logic;
 using kix;
 using log4net;
 using log4net.Config;
