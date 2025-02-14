@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KiConsoleFramework.Model
+namespace KiConsoleFramework.Logic
   {
   public abstract class ObjectBiz
     {

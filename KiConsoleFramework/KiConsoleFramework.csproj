@@ -4,27 +4,23 @@
     <TargetFramework>net8.0</TargetFramework>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
-  <ItemGroup Label="NoneRemove">
-    <None Remove="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
-    <None Remove="Config\Template\template-sensitiveAppSettings.config-template" />
+  <ItemGroup Label="ContentInclude">
+    <Content Include="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Template\connectionStrings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-  <ItemGroup Label="Content">
-    <Content Include="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt" />
-    <Content Include="Config\Template\template-sensitiveAppSettings.config-template" />
-  </ItemGroup>
-  <ItemGroup Label="PackageReference">
+  <ItemGroup Label="PackageReferenceInclude">
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MySql.Data" Version="8.0.32.1" />
     <PackageReference Include="Spectre.Console" Version="0.47.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
-  <ItemGroup Label="ProjectReference">
+  <ItemGroup Label="ProjectReferenceInclude">
     <ProjectReference Include="..\..\KiDotnetFoundation\ki.csproj" />
   </ItemGroup>
   <ItemGroup Label="NoneUpdate">
-    <None Update="App.DEVELOPMENT.config">
-      <DependentUpon>App.config</DependentUpon>
-    </None>
     <None Update="Config\Detail\appSettings.DEVELOPMENT.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -40,13 +36,19 @@
     <None Update="Config\Sensitive\sensitiveAppSettings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="KiConsoleFramework.exe.PRODUCTION.config">
+    <None Update="KiConsoleFramework.dll.PRODUCTION.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>App.config</DependentUpon>
     </None>
-    <None Update="KiConsoleFramework.exe.X.config">
+    <None Update="KiConsoleFramework.dll.X.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>App.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup Label="FolderInclude">
+    <Folder Include="Model\" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="PowerShell -ExecutionPolicy Bypass .\PostBuild.ps1" />
+  </Target>
 </Project>
