@@ -51,15 +51,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>App.config</DependentUpon>
     </Content>
-    <Content Include="noninteractive\.crontab">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="noninteractive\.crontab.headstart.bash">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="noninteractive\run-as-admin-to-init-scheduled-task.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup Label="PackageReferenceInclude">
     <PackageReference Include="log4net" Version="2.0.15" />
@@ -72,6 +63,15 @@
   <ItemGroup Label="NoneUpdate">
     <None Update="Config\Sensitive\sensitiveAppSettings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="noninteractive\.crontab">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="noninteractive\.crontab.headstart.bash">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="noninteractive\run-as-admin-to-init-scheduled-task.ps1">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup Label="FolderInclude">

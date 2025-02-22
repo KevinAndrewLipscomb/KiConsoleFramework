@@ -4,7 +4,7 @@ $taskName = "KiConsoleFramework"
 Stop-ScheduledTask -TaskName $taskName |
   Unregister-ScheduledTask
 #
-$action = New-ScheduledTaskAction -Execute "${PsScriptRoot}\..\KiConsoleFramework.exe"
+$action = New-ScheduledTaskAction -Execute "${PsScriptRoot}\..\bin\Debug\KiConsoleFramework.exe"
 $description = "Near real-time notifications for certain field situations"
 $trigger = New-ScheduledTaskTrigger -AtStart
 $principal = New-ScheduledTaskPrincipal -LogonType S4U -UserId $env:UserName
