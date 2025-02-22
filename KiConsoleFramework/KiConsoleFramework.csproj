@@ -4,12 +4,52 @@
     <TargetFramework>net8.0</TargetFramework>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="App.config" />
+    <None Remove="Config\Detail\appSettings.DEVELOPMENT.config" />
+    <None Remove="Config\Detail\appSettings.PRODUCTION.config" />
+    <None Remove="Config\Detail\appSettings.X.config" />
+    <None Remove="Config\Detail\log4net.DEVELOPMENT.config" />
+    <None Remove="Config\Detail\log4net.PRODUCTION.config" />
+    <None Remove="Config\Detail\log4net.X.config" />
+    <None Remove="KiConsoleFramework.dll.PRODUCTION.config" />
+    <None Remove="KiConsoleFramework.dll.X.config" />
+  </ItemGroup>
   <ItemGroup Label="ContentInclude">
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Detail\appSettings.DEVELOPMENT.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Detail\appSettings.PRODUCTION.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Detail\appSettings.X.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Detail\log4net.DEVELOPMENT.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Detail\log4net.PRODUCTION.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Detail\log4net.X.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Config\Sensitive\000-DO-NOT-VERSION-OR-PUBLISH-OTHER-FILES-IN-THIS-FOLDER.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\Template\connectionStrings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KiConsoleFramework.dll.PRODUCTION.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>App.config</DependentUpon>
+    </Content>
+    <Content Include="KiConsoleFramework.dll.X.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>App.config</DependentUpon>
     </Content>
     <Content Include="noninteractive\.crontab">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -30,28 +70,8 @@
     <ProjectReference Include="..\..\KiDotnetFoundation\ki.csproj" />
   </ItemGroup>
   <ItemGroup Label="NoneUpdate">
-    <None Update="Config\Detail\appSettings.DEVELOPMENT.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Config\Detail\appSettings.PRODUCTION.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Config\Detail\appSettings.X.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Config\Detail\log4net.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Config\Sensitive\sensitiveAppSettings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="KiConsoleFramework.dll.PRODUCTION.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>App.config</DependentUpon>
-    </None>
-    <None Update="KiConsoleFramework.dll.X.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>App.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup Label="FolderInclude">
