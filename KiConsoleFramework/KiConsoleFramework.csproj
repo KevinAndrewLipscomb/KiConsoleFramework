@@ -11,6 +11,15 @@
     <Content Include="Config\Template\connectionStrings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="noninteractive\.crontab">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="noninteractive\.crontab.headstart.bash">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="noninteractive\run-as-admin-to-init-scheduled-task.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup Label="PackageReferenceInclude">
     <PackageReference Include="log4net" Version="2.0.15" />

@@ -18,13 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ki", "..\KiDotnetFoundation\ki.csproj", "{A20C347B-5154-47B9-A275-36157BF73352}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "noninteractive", "noninteractive", "{67C69D0E-5625-43C4-8CD7-AB01745C9CB9}"
-	ProjectSection(SolutionItems) = preProject
-		noninteractive\.crontab = noninteractive\.crontab
-		noninteractive\.crontab.headstart.bash = noninteractive\.crontab.headstart.bash
-		noninteractive\run-as-admin-to-init-scheduled-task.cmd = noninteractive\run-as-admin-to-init-scheduled-task.cmd
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,9 +35,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{67C69D0E-5625-43C4-8CD7-AB01745C9CB9} = {82CB75CF-779C-421D-ADC7-708143E0F097}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71BAD4C4-6435-479A-B3F7-411BA5F20929}
