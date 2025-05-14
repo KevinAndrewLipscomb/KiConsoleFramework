@@ -3,7 +3,7 @@ using System;
 using System.Collections.Specialized;
 using System.Threading;
 
-namespace KiConsoleFramework.Logic
+namespace KiConsoleFramework.Orchestrator
   {
   public class ClassOneBiz : ObjectBiz
     {

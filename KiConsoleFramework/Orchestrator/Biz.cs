@@ -4,7 +4,7 @@ using System;
 using System.Configuration;
 using System.IO;
 
-namespace KiConsoleFramework.Logic
+namespace KiConsoleFramework.Orchestrator
   {
   /// <summary>
   /// The composition root of the application
