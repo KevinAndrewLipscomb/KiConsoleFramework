@@ -1,7 +1,7 @@
 ﻿using KiConsoleFramework.Repo;
 using System.Configuration;
 
-namespace KiConsoleFramework.Logic
+namespace KiConsoleFramework.Orchestrator
   {
   public partial class Biz
     {

@@ -1,7 +1,7 @@
 ﻿using KiConsoleFramework.Repo.Interface;
 using System;
 
-namespace KiConsoleFramework.Logic
+namespace KiConsoleFramework.Orchestrator
   {
   public partial class Biz
     {

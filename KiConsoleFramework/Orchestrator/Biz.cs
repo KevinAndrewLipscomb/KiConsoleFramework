@@ -1,10 +1,7 @@
-﻿using KiConsoleFramework.Repo;
-using KiConsoleFramework.Repo.Interface;
-using System;
-using System.Configuration;
+﻿using System;
 using System.IO;
 
-namespace KiConsoleFramework.Logic
+namespace KiConsoleFramework.Orchestrator
   {
   /// <summary>
   /// The composition root of the application
@@ -27,15 +24,7 @@ namespace KiConsoleFramework.Logic
 
     internal void NotifyObjectBizLoaded(ObjectBiz objectBiz) => ObjectBizLoaded?.Invoke(objectBiz); // for the Biz constructor to call when it lazy-loads an ObjectBiz descendant, so that the Controller can wire it up to the View
 
-    public ClassOneBiz classOne = new
-      (
-      appSettings_imp: ConfigurationManager.AppSettings,
-      repo_imp: classOneRepo
-      );
-
-    static readonly private IClassOneRepo classOneRepo = new ClassOneRepo
-      (
-      );
+    public ClassOneBiz classOne => classOne__provisioner.Value;
 
     }
   }
