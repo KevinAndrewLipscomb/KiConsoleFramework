@@ -9,10 +9,10 @@ namespace KiConsoleFramework.Logic
   /// <summary>
   /// The composition root of the application
   /// </summary>
-  public class Biz
+  public partial class Biz
     {
 
-    static Biz()
+    static Biz() // CONSTRUCTOR
       {
       var appBase = AppDomain.CurrentDomain.BaseDirectory;
       var ConnectionStringsFilePath = Path.Combine(appBase, "Config\\Sensitive\\connectionStrings.config");
@@ -22,6 +22,10 @@ namespace KiConsoleFramework.Logic
         throw new Exception(message);
         }
       }
+
+    public event Action<ObjectBiz> ObjectBizLoaded; // to be observed by the Controller to wire the ObjectBiz descendant up to the View
+
+    internal void NotifyObjectBizLoaded(ObjectBiz objectBiz) => ObjectBizLoaded?.Invoke(objectBiz); // for the Biz constructor to call when it lazy-loads an ObjectBiz descendant, so that the Controller can wire it up to the View
 
     public ClassOneBiz classOne = new
       (

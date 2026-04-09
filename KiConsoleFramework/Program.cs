@@ -26,6 +26,8 @@ namespace KiConsoleFramework
       mainInteraction = new MainInteraction();
         // An Interaction acts as a VIEW.
 
+      biz.ObjectBizLoaded += WireObjectBizDescendantToView(); // Observe for lazy-loading of ObjectBiz descendants so we can wire them up to the view.
+
       try
         {
         if (Environment.UserInteractive) // running as console app
@@ -44,36 +46,32 @@ namespace KiConsoleFramework
         {
         mainInteraction.ShowFailure(Process.GetCurrentProcess().ProcessName,$"{e}");
         }
-      }
 
-    static internal void Work
-      (
-      string[] args
-      )
-      {
-      //
-      // Wire up the view to observe each public ObjectBiz field/class in the model.
-      //
-      foreach(var field_info in typeof(Biz).GetFields())
+      static Action<ObjectBiz> WireObjectBizDescendantToView() => objectBiz =>
         {
-        if (field_info.FieldType.IsSubclassOf(typeof(ObjectBiz)))
-          {
-          (field_info.GetValue(biz) as ObjectBiz).OnProgress += mainInteraction.ShowProgress;
-          (field_info.GetValue(biz) as ObjectBiz).OnCompletion += mainInteraction.ShowCompletion;
-          (field_info.GetValue(biz) as ObjectBiz).OnDebug += mainInteraction.ShowDebug;
-          (field_info.GetValue(biz) as ObjectBiz).OnWarning += mainInteraction.ShowWarning;
-          (field_info.GetValue(biz) as ObjectBiz).OnError += mainInteraction.ShowError;
-          (field_info.GetValue(biz) as ObjectBiz).OnFailure += mainInteraction.ShowFailure;
-          }
-        }
-      //
-      // Execute the business processing.
-      //
-      biz.classOne.Process
+        objectBiz.OnProgress += mainInteraction.ShowProgress;
+        objectBiz.OnCompletion += mainInteraction.ShowCompletion;
+        objectBiz.OnDebug += mainInteraction.ShowDebug;
+        objectBiz.OnWarning += mainInteraction.ShowWarning;
+        objectBiz.OnError += mainInteraction.ShowError;
+        objectBiz.OnFailure += mainInteraction.ShowFailure;
+        };
+
+      static void Work
         (
-        parameterOne:mainInteraction.ParameterOne,
-        parameterTwo:mainInteraction.ParameterTwo
-        );
+        string[] args
+        )
+        {
+        //
+        // Execute the business processing.
+        //
+        biz.classOne.Process
+          (
+          parameterOne:mainInteraction.ParameterOne,
+          parameterTwo:mainInteraction.ParameterTwo
+          );
+        }
+
       }
 
     }
